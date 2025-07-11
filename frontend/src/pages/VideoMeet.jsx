@@ -13,6 +13,7 @@ import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import ChatIcon from '@mui/icons-material/Chat'
 import server from '../environment';
 
+
 const server_url = server;
 
 var connections = {};
@@ -524,26 +525,24 @@ export default function VideoMeetComponent() {
 
 
                     <video className={styles.meetUserVideo} ref={localVideoref} autoPlay muted></video>
+<div className={styles.conferenceView}>
+  {videos.map((video) => (
+    <div key={video.socketId} className={styles.videoWrapper}>
+      <video
+        data-socket={video.socketId}
+        ref={ref => {
+          if (ref && video.stream) {
+            ref.srcObject = video.stream;
+          }
+        }}
+        autoPlay
+        playsInline
+        muted
+      />
+    </div>
+  ))}
+</div>
 
-                    <div className={styles.conferenceView}>
-                        {videos.map((video) => (
-                            <div key={video.socketId}>
-                                <video
-
-                                    data-socket={video.socketId}
-                                    ref={ref => {
-                                        if (ref && video.stream) {
-                                            ref.srcObject = video.stream;
-                                        }
-                                    }}
-                                    autoPlay
-                                >
-                                </video>
-                            </div>
-
-                        ))}
-
-                    </div>
 
                 </div>
 
