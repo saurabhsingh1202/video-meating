@@ -1,27 +1,30 @@
 .meetVideoContainer {
-    position: relative;
-    height: 100vh;
-    background: rgb(1, 4, 48);
+  position: relative;
+  height: 100vh;
+  background: rgb(1, 4, 48);
+  overflow: hidden;
 }
 
 .meetUserVideo {
-    position: absolute;
-    bottom: 10vh;
-    height: 20vh;
-    width: auto;
-    left: 0;
-    border-radius: 20px;
+  position: absolute;
+  bottom: 10vh;
+  height: 20vh;
+  width: auto;
+  left: 0;
+  border-radius: 20px;
+  z-index: 5; /* ✅ Brings it above background */
 }
 
 .buttonContainers {
-    position: absolute;
-    width: 100vw;
-    bottom: 0;
-    text-align: center;
+  position: absolute;
+  width: 100vw;
+  bottom: 10px;
+  text-align: center;
+  z-index: 10; /* ✅ Must be above videos */
 }
 
 .buttonContainers svg {
-    font-size: 3rem;
+  font-size: 3rem;
 }
 
 .conferenceView {
@@ -32,8 +35,9 @@
   gap: 10px;
   padding: 10px;
   box-sizing: border-box;
+  z-index: 1;
+  position: relative;
 
-  /* Dynamically adjust based on screen size */
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-auto-rows: 1fr;
 }
@@ -43,6 +47,7 @@
   height: 100%;
   overflow: hidden;
   border-radius: 10px;
+  position: relative;
 }
 
 .videoWrapper video {
@@ -50,25 +55,35 @@
   height: 100%;
   object-fit: cover;
   border-radius: 10px;
+
+  pointer-events: none; /* ✅ Prevents blocking UI clicks */
 }
 
 .chatRoom {
-    position: absolute;
-    height: 90vh;
-    right: 0;
-    background: white;
-    border-radius: 10px;
-    width: 30vw;
-    padding-inline: 20px;
+  position: absolute;
+  height: 90vh;
+  right: 0;
+  top: 5vh;
+  background: white;
+  border-radius: 10px;
+  width: 30vw;
+  padding-inline: 20px;
+  z-index: 9; /* ✅ Above video */
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
 }
 
 .chatContainer {
-    position: relative;
-    height: 100%;
+  position: relative;
+  height: 100%;
 }
 
-
 .chattingArea {
-    position: absolute;
-    bottom: 0;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding-bottom: 10px;
+  background-color: white;
 }
