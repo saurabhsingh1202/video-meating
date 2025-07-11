@@ -1,39 +1,41 @@
 import express from "express";
 import { createServer } from "node:http";
-
 import { Server } from "socket.io";
-
 import mongoose from "mongoose";
-import { connectToSocket } from "./controllers/socketManager.js";
-
+import dotenv from "dotenv";
 import cors from "cors";
+
+import { connectToSocket } from "./controllers/socketManager.js";
 import userRoutes from "./routes/users.routes.js";
+
+dotenv.config(); // ✅ load environment variables
 
 const app = express();
 const server = createServer(app);
+
+// Initialize Socket.IO
 const io = connectToSocket(server);
 
-
-app.set("port", (process.env.PORT || 8000))
+// Middleware
+app.set("port", process.env.PORT || 8000);
 app.use(cors());
 app.use(express.json({ limit: "40kb" }));
 app.use(express.urlencoded({ limit: "40kb", extended: true }));
 
+// Routes
 app.use("/api/v1/users", userRoutes);
 
-const start = async () => {
-    app.set("mongo_user")
-    const connectionDb = await mongoose.connect("mongodb://localhost:27017/zoom", { useNewUrlParser: true, useUnifiedTopology: true });
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB Connected Successfully"))
+  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
-    console.log(`MONGO Connected DB HOst: ${connectionDb.connection.host}`)
-    server.listen(app.get("port"), () => {
-        console.log("LISTENIN ON PORT 8000")
-    });
-
-
-
-}
-
-
+// Start Server
+const start = () => {
+  server.listen(app.get("port"), () => {
+    console.log(`✅ Server listening on port ${app.get("port")}`);
+  });
+};
 
 start();
